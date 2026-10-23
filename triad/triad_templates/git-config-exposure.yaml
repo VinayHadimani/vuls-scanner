@@ -1,0 +1,36 @@
+id: git-config-exposure
+
+info:
+  name: .git config file exposure
+  author: triad
+  severity: medium
+  description: The /.git/config file is readable, confirming a exposed .git
+    directory and enabling full source reconstruction via the repository
+    object files.
+  reference:
+    - https://owasp.org/www-project-top-ten/2021/A05_2021-Security_Misconfiguration
+  classification:
+    cve-id: null
+    cwe-id: CWE-538
+  tags: exposure, git, recon
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/.git/config"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "repositoryformatversion"
+        condition: or
+    extractors:
+      - type: regex
+        part: body
+        group: 0
+        regex:
+          - "repositoryformatversion = \\d+"

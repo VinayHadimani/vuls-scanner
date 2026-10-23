@@ -1,0 +1,37 @@
+id: tomcat-manager-exposed
+
+info:
+  name: Apache Tomcat manager application exposed
+  author: triad
+  severity: medium
+  description: The Tomcat /manager/html application is reachable. Exposed
+    manager consoles are a prime credential-stuffing target and, with weak
+    credentials, allow WAR deployment and remote code execution.
+  reference:
+    - https://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html
+  classification:
+    cve-id: null
+    cwe-id: CWE-200
+  tags: exposure, tomcat, java, panel
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/manager/html"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 401
+      - type: word
+        part: body
+        words:
+          - "Apache Tomcat"
+        condition: or
+    extractors:
+      - type: regex
+        part: body
+        group: 0
+        regex:
+          - "Apache Tomcat/[0-9.]+"

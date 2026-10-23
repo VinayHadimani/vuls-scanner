@@ -1,0 +1,40 @@
+id: cors-misconfiguration
+
+info:
+  name: CORS misconfiguration - arbitrary origin reflection
+  author: triad
+  severity: medium
+  description: The server reflects an arbitrary Origin back in the
+    Access-Control-Allow-Origin response header (or answers with a wildcard),
+    letting any website read cross-origin responses from authenticated
+    sessions.
+  reference:
+    - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+  classification:
+    cve-id: null
+    cwe-id: CWE-942
+  tags: cors, misconfig, header
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/"
+    headers:
+      Origin: "https://triad-probe.example.com"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: regex
+        part: header
+        case-insensitive: true
+        regex:
+          - "access-control-allow-origin: *(\\*|https://triad-probe\\.example\\.com)"
+        condition: or
+    extractors:
+      - type: kval
+        part: header
+        name: acao
+        kval:
+          - access_control_allow_origin

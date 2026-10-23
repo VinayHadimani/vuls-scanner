@@ -1,0 +1,36 @@
+id: phpinfo-exposure
+
+info:
+  name: phpinfo() page exposure
+  author: triad
+  severity: medium
+  description: A phpinfo() page is reachable, disclosing the full PHP
+    configuration, loaded modules, environment variables and internal paths.
+  reference:
+    - https://www.php.net/phpinfo
+  classification:
+    cve-id: null
+    cwe-id: CWE-200
+  tags: exposure, php, phpinfo
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/phpinfo.php"
+      - "{{BaseURL}}/info.php"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "PHP Version"
+        condition: or
+    extractors:
+      - type: regex
+        part: body
+        group: 0
+        regex:
+          - "PHP Version [0-9.]+"

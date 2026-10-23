@@ -1,0 +1,40 @@
+id: jenkins-detection
+
+info:
+  name: Jenkins instance detected
+  author: triad
+  severity: info
+  description: A Jenkins continuous-integration server is reachable. Unpatched
+    or unauthenticated Jenkins consoles expose build scripts, credentials and
+    often unauthenticated remote code execution via script consoles.
+  reference:
+    - https://www.jenkins.io/security/
+  classification:
+    cve-id: null
+    cwe-id: CWE-200
+  tags: tech, jenkins, ci, panel
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/jenkins/"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 401
+          - 403
+      - type: word
+        part: body
+        words:
+          - "Sign in [Jenkins]"
+          - "Dashboard [Jenkins]"
+        condition: or
+    extractors:
+      - type: regex
+        part: body
+        group: 0
+        regex:
+          - "Jenkins ver\\. [0-9.]+"
+          - "Authentication required"

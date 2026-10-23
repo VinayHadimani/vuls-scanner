@@ -1,0 +1,35 @@
+id: dot-env-file-exposure
+
+info:
+  name: .env file exposure
+  author: triad
+  severity: high
+  description: A .env file is readable on the web root, disclosing application
+    secrets such as APP_KEY, database credentials and mail passwords.
+  reference:
+    - https://owasp.org/www-project-top-ten/2021/A01_2021-Broken_Access_Control
+  classification:
+    cve-id: null
+    cwe-id: CWE-538
+  tags: exposure, config, env
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/.env"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "APP_KEY="
+        condition: or
+    extractors:
+      - type: regex
+        part: body
+        group: 0
+        regex:
+          - "APP_KEY=[^\\r\\n]{4,20}"

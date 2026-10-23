@@ -1,0 +1,27 @@
+id: open-directory-listing
+
+info:
+  name: Open directory listing
+  author: triad
+  severity: low
+  description: The page body shows an auto-generated directory index, disclosing
+    file names and structure.
+  classification:
+    cve-id: null
+    cwe-id: CWE-538
+  tags: exposure, listing
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "Index of /"
+        condition: or

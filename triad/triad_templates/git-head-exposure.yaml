@@ -1,0 +1,29 @@
+id: git-head-exposure
+
+info:
+  name: .git folder HEAD file exposure
+  author: triad
+  severity: medium
+  description: The /.git/HEAD file is readable, leaking the current branch and
+    enabling full source reconstruction via .git directory downloads.
+  reference:
+    - https://owasp.org/www-project-top-ten/2021/A05_2021-Security_Misconfiguration
+  classification:
+    cve-id: null
+    cwe-id: CWE-538
+  tags: exposure, git, recon
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/.git/HEAD"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "ref:"
+        condition: or

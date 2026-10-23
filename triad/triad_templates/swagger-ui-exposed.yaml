@@ -1,0 +1,32 @@
+id: swagger-ui-exposed
+
+info:
+  name: Swagger UI exposed
+  author: triad
+  severity: info
+  description: A Swagger/OpenAPI documentation console is reachable, mapping
+    every API endpoint and parameter. Full API inventories hand attackers a
+    complete attack surface map and often reveal internal endpoints.
+  reference:
+    - https://swagger.io/tools/swagger-ui/
+  classification:
+    cve-id: null
+    cwe-id: CWE-200
+  tags: exposure, api, swagger, docs
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/swagger-ui/"
+      - "{{BaseURL}}/swagger/index.html"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "Swagger UI"
+          - "swagger-ui"
+        condition: or

@@ -1,0 +1,30 @@
+id: tech-server-header
+
+info:
+  name: Technology detection via Server header
+  author: triad
+  severity: info
+  description: Extracts the Server header for technology fingerprinting; feeds
+    TRIAD's EXPLAIN/RAG stage with target context.
+  classification:
+    cve-id: null
+    cwe-id: CWE-200
+  tags: tech, fingerprint
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/"
+    matchers:
+      - type: status
+        status:
+          - 200
+    extractors:
+      - type: kval
+        name: server
+        kval:
+          - server
+      - type: kval
+        name: powered_by
+        kval:
+          - x_powered_by

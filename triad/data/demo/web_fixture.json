@@ -1,0 +1,55 @@
+{
+  "routes": [
+    {
+      "path": "/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/passwd",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nServer: Apache/2.4.49 (Unix)\r\nX-Powered-By: PHP/7.4.3\r\nContent-Type: text/plain\r\n\r\nroot:x:0:0:root:/root:/bin/bash\r\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\r\n"
+    },
+    {
+      "path": "/.git/HEAD",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nServer: Apache/2.4.49 (Unix)\r\nX-Powered-By: PHP/7.4.3\r\nContent-Type: text/plain\r\n\r\nref: refs/heads/main\n"
+    },
+    {
+      "path": "/.git/config",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n"
+    },
+    {
+      "path": "/.env",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nAPP_NAME=demo\nAPP_KEY=base64:demo-not-a-real-key\nDB_PASSWORD=supersecret\nMAIL_PASSWORD=mailsecret\n"
+    },
+    {
+      "path": "/actuator",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.spring-boot.actuator.v3+json\r\n\r\n{\"_links\":{\"self\":{\"href\":\"http://demo-site.local/actuator\",\"templated\":false},\"env\":{\"href\":\"http://demo-site.local/actuator/env\",\"templated\":false},\"health\":{\"href\":\"http://demo-site.local/actuator/health\",\"templated\":false}}}"
+    },
+    {
+      "path": "/phpinfo.php",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<html><body><h1 class=\"p\">PHP Version 7.4.3</h1></body></html>"
+    },
+    {
+      "path": "/manager/html",
+      "status": 401,
+      "raw": "HTTP/1.1 401 Unauthorized\r\nContent-Type: text/html;charset=utf-8\r\n\r\n<html><h1>401 Unauthorized</h1><p>You are not authorized to view this page.</p><hr/><b>Apache Tomcat/9.0.65</b></html>"
+    },
+    {
+      "path": "/jenkins/",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n<html><head><title>Sign in [Jenkins]</title></head><body><h1>Sign in to Jenkins</h1>Jenkins ver. 2.401.1</body></html>"
+    },
+    {
+      "path": "/swagger-ui/",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html><head><title>Swagger UI</title></head><body><div id=\"swagger-ui\"></div></body></html>"
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "raw": "HTTP/1.1 200 OK\r\nServer: Apache/2.4.49 (Unix)\r\nX-Powered-By: PHP/7.4.3\r\nSet-Cookie: session=abc123; Path=/\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<html><head><title>Files</title></head><body><h1>Index of /</h1><table><tr><td>src/</td></tr></table><!-- app error trace: Warning: mysql_query(): Access denied for user 'root'@'localhost' (using password: YES) in /var/www/html/db.php on line 12 --></body></html>",
+      "cookies": ["session=abc123"]
+    }
+  ]
+}

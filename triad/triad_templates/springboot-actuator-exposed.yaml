@@ -1,0 +1,37 @@
+id: springboot-actuator-exposed
+
+info:
+  name: Spring Boot Actuator exposed
+  author: triad
+  severity: medium
+  description: The Spring Boot Actuator endpoint is reachable without
+    authentication. An exposed /actuator tree commonly allows reading
+    /actuator/env (environment variables and secrets), /actuator/heapdump
+    and /actuator/beans.
+  reference:
+    - https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
+  classification:
+    cve-id: null
+    cwe-id: CWE-200
+  tags: exposure, springboot, actuator, java
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/actuator"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        part: body
+        words:
+          - "_links"
+        condition: or
+    extractors:
+      - type: json
+        part: body
+        json:
+          - '._links.self.href'
+          - '._links.env.href'

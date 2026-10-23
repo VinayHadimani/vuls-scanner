@@ -1,0 +1,14 @@
+{
+  "name": "triad-demo-app",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "lodash": "4.17.20",
+    "express": "4.17.1",
+    "ws": "7.4.6",
+    "request": "2.88.2"
+  },
+  "devDependencies": {
+    "moment": "2.29.1"
+  }
+}
